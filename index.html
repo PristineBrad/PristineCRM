@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pristine Acres — Luxury Pool Sales CRM</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold-light: #E8D5A3;
+  --gold-dim: rgba(201,168,76,0.15);
+  --dark: #080808;
+  --dark2: #0F0F0F;
+  --dark3: #161616;
+  --dark4: #1E1E1E;
+  --dark5: #262626;
+  --text: #E8E8E8;
+  --muted: #777;
+  --muted2: #555;
+  --accent: #4A9EBF;
+  --green: #4CAF50;
+  --orange: #F5A623;
+  --red: #E05555;
+  --purple: #9B7ED4;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--dark);
+  color: var(--text);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  min-height: 100vh;
+  font-size: 13px;
+}
+.app { display: flex; min-height: 100vh; }
+
+/* SIDEBAR */
+.sidebar {
+  width: 240px; min-width: 240px;
+  background: var(--dark2);
+  border-right: 1px solid rgba(255,255,255,0.05);
+  display: flex; flex-direction: column;
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+}
+.sidebar-logo { padding: 28px 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.logo-eyebrow { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.logo-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: var(--gold-light); letter-spacing: 1px; line-height: 1.1; }
+.logo-magazine { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); opacity: 0.6; margin-top: 3px; }
+.logo-sub { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted2); margin-top: 2px; }
+.sidebar-nav { padding: 14px 0; flex: 1; }
+.nav-section-label { font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted2); padding: 12px 24px 5px; font-weight: 600; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 24px; cursor: pointer; color: var(--muted);
+  font-size: 12px; font-weight: 500; letter-spacing: 0.5px;
+  transition: all 0.2s; border-left: 2px solid transparent; user-select: none;
+}
+.nav-item:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+.nav-item.active { color: var(--gold); border-left-color: var(--gold); background: rgba(201,168,76,0.05); }
+.nav-icon { font-size: 14px; min-width: 18px; text-align: center; }
+.nav-count { margin-left: auto; background: var(--dark4); color: var(--muted); font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 600; }
+.nav-item.active .nav-count { background: var(--gold-dim); color: var(--gold); }
+.sidebar-footer { padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.05); }
+.add-cat-btn { width: 100%; background: none; border: 1px dashed rgba(201,168,76,0.3); color: var(--gold); padding: 9px; border-radius: 7px; font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+.add-cat-btn:hover { background: var(--gold-dim); border-style: solid; }
+
+/* MAIN */
+.main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.topbar { background: var(--dark2); border-bottom: 1px solid rgba(255,255,255,0.05); padding: 16px 36px; display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 50; }
+.topbar-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: #fff; flex: 1; }
+.topbar-title span { color: var(--gold); font-style: italic; }
+.search-box { background: var(--dark4); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; padding: 8px 14px; color: var(--text); font-family: 'Montserrat', sans-serif; font-size: 12px; width: 200px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: rgba(201,168,76,0.4); }
+.search-box::placeholder { color: var(--muted2); }
+.add-contact-btn { background: var(--gold); color: var(--dark); border: none; padding: 9px 18px; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+.add-contact-btn:hover { background: var(--gold-light); }
+
+/* STATS BAR */
+.stats-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.05); }
+.stat { background: var(--dark2); padding: 14px 20px; text-align: center; }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: var(--gold); line-height: 1; }
+.stat-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+
+/* CONTENT */
+.content { padding: 30px 36px; flex: 1; }
+
+/* CONTACT CARDS */
+.table-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.table-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: #fff; }
+.contacts-grid { display: grid; gap: 10px; }
+.contact-card { background: var(--dark3); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; overflow: hidden; transition: border-color 0.2s; }
+.contact-card:hover { border-color: rgba(201,168,76,0.2); }
+.contact-main { display: grid; grid-template-columns: 3fr 2fr 1.5fr 1.5fr 1fr 1fr auto; align-items: center; padding: 14px 20px; gap: 12px; cursor: pointer; }
+.contact-name { font-weight: 600; font-size: 13px; color: #fff; margin-bottom: 2px; }
+.contact-company { font-size: 11px; color: var(--muted); }
+.contact-category { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
+.contact-status-cell { display: flex; align-items: center; gap: 8px; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.status-label { font-size: 11px; color: var(--muted); }
+.magazine-badge { font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
+.mag-yes { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.25); }
+.mag-no { background: var(--dark5); color: var(--muted2); border: 1px solid rgba(255,255,255,0.05); }
+.reminder-badge { font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+.reminder-due { background: rgba(224,85,85,0.15); color: var(--red); border: 1px solid rgba(224,85,85,0.25); }
+.reminder-upcoming { background: rgba(245,166,35,0.12); color: var(--orange); border: 1px solid rgba(245,166,35,0.2); }
+.reminder-clear { background: var(--dark5); color: var(--muted2); border: 1px solid rgba(255,255,255,0.05); }
+.expand-btn { background: none; border: none; color: var(--muted2); cursor: pointer; font-size: 16px; padding: 4px; transition: color 0.2s, transform 0.3s; }
+.contact-card.open .expand-btn { color: var(--gold); transform: rotate(180deg); }
+
+/* EXPANDED DETAIL */
+.contact-detail { display: none; border-top: 1px solid rgba(255,255,255,0.05); padding: 20px; background: var(--dark2); }
+.contact-card.open .contact-detail { display: block; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 16px; }
+.detail-section-label { font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 10px; }
+.detail-field { margin-bottom: 10px; }
+.field-label { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted2); margin-bottom: 4px; font-weight: 600; }
+.field-input { background: var(--dark4); border: 1px solid rgba(255,255,255,0.07); border-radius: 6px; padding: 7px 10px; color: var(--text); font-family: 'Montserrat', sans-serif; font-size: 12px; width: 100%; outline: none; transition: border-color 0.2s; }
+.field-input:focus { border-color: rgba(201,168,76,0.4); }
+textarea.field-input { resize: vertical; min-height: 70px; line-height: 1.6; }
+.touchpoints-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.touchpoint-toggle { display: flex; align-items: center; gap: 7px; padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); background: var(--dark4); cursor: pointer; font-size: 11px; color: var(--muted); font-weight: 500; transition: all 0.2s; user-select: none; }
+.touchpoint-toggle:hover { border-color: rgba(201,168,76,0.3); color: var(--text); }
+.touchpoint-toggle.done { background: rgba(201,168,76,0.1); border-color: rgba(201,168,76,0.3); color: var(--gold); }
+.tp-check { font-size: 13px; }
+.detail-actions { display: flex; gap: 10px; margin-top: 14px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 14px; }
+.btn-save { background: var(--gold); color: var(--dark); border: none; padding: 8px 20px; border-radius: 7px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+.btn-save:hover { background: var(--gold-light); }
+.btn-delete { background: none; border: 1px solid rgba(224,85,85,0.3); color: var(--red); padding: 8px 16px; border-radius: 7px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; margin-left: auto; }
+.btn-delete:hover { background: rgba(224,85,85,0.1); }
+
+/* NOTES LOG */
+.notes-log { margin-top: 0; }
+.notes-log-title { font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 10px; }
+.note-entry { background: var(--dark3); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
+.note-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.note-timestamp { font-size: 10px; color: var(--gold); font-weight: 600; letter-spacing: 0.5px; }
+.note-author { font-size: 10px; color: var(--muted2); }
+.note-text { font-size: 12px; color: var(--text); line-height: 1.6; }
+.notes-empty { font-size: 11px; color: var(--muted2); font-style: italic; padding: 10px 0; }
+.new-note-row { display: flex; gap: 8px; margin-top: 10px; }
+.new-note-row textarea { flex: 1; background: var(--dark4); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 9px 12px; color: var(--text); font-family: 'Montserrat', sans-serif; font-size: 12px; resize: none; height: 60px; outline: none; transition: border-color 0.2s; line-height: 1.5; }
+.new-note-row textarea:focus { border-color: rgba(201,168,76,0.4); }
+.btn-add-note { background: var(--dark4); border: 1px solid rgba(201,168,76,0.3); color: var(--gold); padding: 0 14px; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+.btn-add-note:hover { background: var(--gold-dim); }
+
+/* STATUS / CATEGORY COLORS */
+.s-new { background: rgba(74,158,191,0.12); color: var(--accent); border: 1px solid rgba(74,158,191,0.25); }
+.s-contacted { background: rgba(201,168,76,0.12); color: var(--gold); border: 1px solid rgba(201,168,76,0.25); }
+.s-meeting { background: rgba(155,126,212,0.12); color: var(--purple); border: 1px solid rgba(155,126,212,0.25); }
+.s-proposal { background: rgba(245,166,35,0.12); color: var(--orange); border: 1px solid rgba(245,166,35,0.2); }
+.s-partner { background: rgba(76,175,80,0.12); color: var(--green); border: 1px solid rgba(76,175,80,0.25); }
+.s-nurture { background: rgba(255,255,255,0.06); color: var(--muted); border: 1px solid rgba(255,255,255,0.08); }
+.cat-builder { color: var(--gold); }
+.cat-developer { color: var(--accent); }
+.cat-architect { color: var(--purple); }
+.cat-wealth { color: var(--orange); }
+.cat-boutique { color: #E8A0C0; }
+.cat-club { color: var(--green); }
+.cat-realestate { color: #80D0D0; }
+.cat-sports { color: #FF8C69; }
+.cat-pe { color: #78C8A0; }
+.cat-medical { color: #90C8E8; }
+.cat-pipeline { color: #FF6B6B; }
+.cat-secured { color: #4CAF50; }
+.cat-custom { color: var(--muted); }
+
+/* CUSTOM TOUCHPOINT */
+.tp-other-row { display: flex; gap: 8px; margin-top: 8px; align-items: center; }
+.tp-other-input { background: var(--dark4); border: 1px solid rgba(255,255,255,0.08); border-radius: 7px; padding: 7px 10px; color: var(--text); font-family: 'Montserrat', sans-serif; font-size: 11px; flex: 1; outline: none; transition: border-color 0.2s; }
+.tp-other-input:focus { border-color: rgba(201,168,76,0.4); }
+.tp-other-input::placeholder { color: var(--muted2); }
+.btn-add-tp { background: none; border: 1px solid rgba(201,168,76,0.3); color: var(--gold); padding: 7px 12px; border-radius: 7px; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 700; cursor: pointer; white-space: nowrap; letter-spacing: 0.5px; transition: all 0.2s; }
+.btn-add-tp:hover { background: var(--gold-dim); }
+.custom-tp-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.custom-tp-tag { display: inline-flex; align-items: center; gap: 5px; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25); color: var(--gold); font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 12px; }
+.custom-tp-tag button { background: none; border: none; color: var(--gold); cursor: pointer; font-size: 11px; line-height: 1; padding: 0; opacity: 0.7; }
+.custom-tp-tag button:hover { opacity: 1; }
+
+/* ═══════════ CALENDAR ═══════════ */
+.cal-container { padding: 0; }
+.cal-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+.cal-month-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: #fff; flex: 1; }
+.cal-nav-btn { background: var(--dark3); border: 1px solid rgba(255,255,255,0.08); color: var(--muted); width: 36px; height: 36px; border-radius: 8px; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.cal-nav-btn:hover { color: var(--gold); border-color: rgba(201,168,76,0.3); }
+.add-event-btn { background: var(--gold); color: var(--dark); border: none; padding: 9px 18px; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+.add-event-btn:hover { background: var(--gold-light); }
+.cal-today-btn { background: none; border: 1px solid rgba(201,168,76,0.3); color: var(--gold); padding: 8px 16px; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.2s; letter-spacing: 1px; }
+.cal-today-btn:hover { background: var(--gold-dim); }
+
+.cal-grid-header { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 4px; }
+.cal-day-label { text-align: center; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted2); font-weight: 600; padding: 6px 0; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal-cell {
+  background: var(--dark3); border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 8px; min-height: 100px; padding: 8px;
+  cursor: pointer; transition: all 0.2s; position: relative;
+}
+.cal-cell:hover { border-color: rgba(201,168,76,0.2); background: var(--dark4); }
+.cal-cell.today { border-color: rgba(201,168,76,0.5); background: rgba(201,168,76,0.04); }
+.cal-cell.other-month { opacity: 0.35; }
+.cal-cell.today .cal-cell-num { color: var(--gold); font-weight: 700; }
+.cal-cell-num { font-size: 12px; color: var(--muted); font-weight: 500; margin-bottom: 4px; }
+.cal-event {
+  font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 4px;
+  margin-bottom: 3px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: opacity 0.2s;
+}
+.cal-event:hover { opacity: 0.8; }
+.ev-outreach { background: rgba(201,168,76,0.2); color: var(--gold); }
+.ev-meeting { background: rgba(155,126,212,0.2); color: var(--purple); }
+.ev-followup { background: rgba(74,158,191,0.2); color: var(--accent); }
+.ev-event { background: rgba(76,175,80,0.2); color: var(--green); }
+.ev-magazine { background: rgba(245,166,35,0.2); color: var(--orange); }
+.ev-personal { background: rgba(232,160,192,0.2); color: #E8A0C0; }
+.cal-more { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+/* UPCOMING EVENTS PANEL */
+.upcoming-panel { background: var(--dark3); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+.upcoming-title { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 14px; }
+.upcoming-list { display: grid; gap: 8px; }
+.upcoming-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--dark4); border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+.upcoming-item:hover { background: var(--dark5); }
+.upcoming-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.upcoming-info { flex: 1; }
+.upcoming-name { font-size: 12px; font-weight: 600; color: var(--text); }
+.upcoming-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.upcoming-date { font-size: 11px; font-weight: 600; color: var(--gold); white-space: nowrap; }
+.no-upcoming { font-size: 12px; color: var(--muted2); font-style: italic; padding: 8px 0; }
+
+/* MODAL */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal { background: var(--dark3); border: 1px solid rgba(201,168,76,0.2); border-radius: 16px; padding: 34px; width: 100%; max-width: 560px; max-height: 88vh; overflow-y: auto; transform: translateY(20px); transition: transform 0.2s; }
+.modal-overlay.open .modal { transform: translateY(0); }
+.modal-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: #fff; margin-bottom: 5px; }
+.modal-sub { font-size: 11px; color: var(--muted); margin-bottom: 26px; letter-spacing: 1px; }
+.form-row { margin-bottom: 15px; }
+.form-label { display: block; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+.form-input { width: 100%; background: var(--dark4); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 14px; color: var(--text); font-family: 'Montserrat', sans-serif; font-size: 13px; outline: none; transition: border-color 0.2s; }
+.form-input:focus { border-color: rgba(201,168,76,0.5); }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.form-select { width: 100%; background: var(--dark4); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 14px; color: var(--text); font-family: 'Montserrat', sans-serif; font-size: 13px; outline: none; cursor: pointer; }
+.form-select option { background: var(--dark3); }
+.modal-actions { display: flex; gap: 12px; margin-top: 22px; }
+.btn-cancel { background: none; border: 1px solid rgba(255,255,255,0.1); color: var(--muted); padding: 10px 20px; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; }
+.btn-cancel:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+
+/* EVENT DETAIL MODAL */
+.event-detail-modal { max-width: 440px; }
+.event-type-badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; margin-bottom: 14px; }
+
+.empty-state { text-align: center; padding: 60px 20px; color: var(--muted2); }
+
+/* VERIFICATION BADGE */
+.verify-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; cursor: pointer; transition: all 0.2s; user-select: none; }
+.verify-verified { background: rgba(76,175,80,0.12); color: var(--green); border: 1px solid rgba(76,175,80,0.25); }
+.verify-prefilled { background: rgba(245,166,35,0.12); color: var(--orange); border: 1px solid rgba(245,166,35,0.2); }
+.verify-unverified { background: var(--dark5); color: var(--muted2); border: 1px solid rgba(255,255,255,0.07); }
+.prefill-btn { background: none; border: 1px solid rgba(74,158,191,0.35); color: var(--accent); padding: 5px 12px; border-radius: 7px; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+.prefill-btn:hover { background: rgba(74,158,191,0.1); }
+.prefill-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* TOUCHPOINT COUNT */
+.tp-count-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); background: var(--dark5); color: var(--muted); white-space: nowrap; letter-spacing: 0.5px; }
+.tp-count-badge.tp-has-some { background: rgba(201,168,76,0.1); color: var(--gold); border-color: rgba(201,168,76,0.2); }
+.tp-count-badge.tp-complete { background: rgba(76,175,80,0.12); color: var(--green); border-color: rgba(76,175,80,0.25); }
+
+/* LOCATION VIEW */
+.location-filters { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+.location-filter-input { background: var(--dark4); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; padding: 9px 14px; color: var(--text); font-family: 'Montserrat', sans-serif; font-size: 12px; outline: none; transition: border-color 0.2s; flex: 1; min-width: 140px; }
+.location-filter-input:focus { border-color: rgba(201,168,76,0.4); }
+.location-filter-input::placeholder { color: var(--muted2); }
+.loc-card { background: var(--dark3); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 12px 16px; margin-bottom: 8px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: border-color 0.2s; }
+.loc-card:hover { border-color: rgba(201,168,76,0.2); }
+.loc-icon { font-size: 18px; min-width: 24px; text-align: center; }
+.loc-info { flex: 1; }
+.loc-name { font-weight: 600; font-size: 13px; color: #fff; }
+.loc-company { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.loc-address { font-size: 11px; color: var(--gold); margin-top: 2px; }
+.loc-no-address { font-size: 11px; color: var(--muted2); font-style: italic; margin-top: 2px; }
+.empty-icon { font-size: 40px; margin-bottom: 14px; opacity: 0.4; }
+.empty-text { font-size: 13px; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .stats-bar { grid-template-columns: repeat(3,1fr); }
+  .contact-main { grid-template-columns: 2fr 1fr auto; }
+  .contact-main > *:not(:nth-child(1)):not(:nth-child(2)):not(:last-child) { display: none; }
+  .detail-grid { grid-template-columns: 1fr; }
+  .cal-cell { min-height: 70px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-eyebrow">Outreach CRM</div>
+    <div class="logo-title">Pristine Acres</div>
+    <div class="logo-magazine">Al Fresco Magazine</div>
+    <div class="logo-sub">Northern Virginia · DC Metro</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Views</div>
+    <div class="nav-item active" onclick="setView('all')" id="nav-all"><span class="nav-icon">◈</span> All Contacts <span class="nav-count" id="count-all">0</span></div>
+    <div class="nav-item" onclick="setView('calendar')" id="nav-calendar"><span class="nav-icon">📅</span> Calendar <span class="nav-count" id="count-events">0</span></div>
+    <div class="nav-item" onclick="setView('reminders')" id="nav-reminders"><span class="nav-icon">⏰</span> Reminders <span class="nav-count" id="count-reminders" style="background:rgba(224,85,85,0.15);color:var(--red)">0</span></div>
+    <div class="nav-item" onclick="setView('contacted')" id="nav-contacted"><span class="nav-icon">✅</span> Contacted <span class="nav-count" id="count-contacted">0</span></div>
+    <div class="nav-item" onclick="setView('tocontact')" id="nav-tocontact"><span class="nav-icon">📬</span> To Contact <span class="nav-count" id="count-tocontact" style="background:rgba(245,166,35,0.15);color:var(--orange)">0</span></div>
+    <div class="nav-item" onclick="setView('location')" id="nav-location"><span class="nav-icon">📍</span> By Location</div>
+    <div class="nav-section-label" style="margin-top:8px;">Categories</div>
+    <div id="catNav"></div>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="add-cat-btn" onclick="openCatModal()">+ Add Category</button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="viewTitle">All Contacts</div>
+    <input class="search-box" type="text" placeholder="Search contacts…" oninput="renderContacts()" id="searchInput">
+    <button class="add-contact-btn" onclick="openAddModal()">+ Add Contact</button>
+  </div>
+  <div class="stats-bar" id="statsBar">
+    <div class="stat"><div class="stat-num" id="stat-total">0</div><div class="stat-label">Total Contacts</div></div>
+    <div class="stat"><div class="stat-num" id="stat-contacted">0</div><div class="stat-label">Contacted</div></div>
+    <div class="stat"><div class="stat-num" id="stat-magazine">0</div><div class="stat-label">Magazine Delivered</div></div>
+    <div class="stat"><div class="stat-num" id="stat-meeting">0</div><div class="stat-label">Meetings Set</div></div>
+    <div class="stat"><div class="stat-num" id="stat-partner">0</div><div class="stat-label">Partners</div></div>
+  </div>
+  <div class="content" id="mainContent"></div>
+</main>
+</div>
+
+<!-- ADD CONTACT MODAL -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <div class="modal-title">Add New Contact</div>
+    <div class="modal-sub">Fill in what you know — update anytime</div>
+    <div class="form-grid">
+      <div class="form-row"><label class="form-label">First Name *</label><input class="form-input" id="f-fname" placeholder="John"></div>
+      <div class="form-row"><label class="form-label">Last Name</label><input class="form-input" id="f-lname" placeholder="Smith"></div>
+    </div>
+    <div class="form-row"><label class="form-label">Company / Firm</label><input class="form-input" id="f-company" placeholder="Artisan Builders"></div>
+    <div class="form-row"><label class="form-label">Title / Role</label><input class="form-input" id="f-title" placeholder="Principal, Partner, Owner…"></div>
+    <div class="form-grid">
+      <div class="form-row"><label class="form-label">Category *</label><select class="form-select" id="f-category"></select></div>
+      <div class="form-row"><label class="form-label">Status</label><select class="form-select" id="f-status">
+        <option value="new">New — Not Contacted</option><option value="contacted">Contacted</option>
+        <option value="meeting">Meeting Scheduled</option><option value="proposal">Proposal Sent</option>
+        <option value="partner">Partner / Client</option><option value="nurture">Long-term Nurture</option>
+      </select></div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row"><label class="form-label">Phone</label><input class="form-input" id="f-phone" placeholder="(703) 555-0000"></div>
+      <div class="form-row"><label class="form-label">Email</label><input class="form-input" id="f-email" placeholder="name@company.com"></div>
+    </div>
+    <div class="form-row"><label class="form-label">LinkedIn / Website</label><input class="form-input" id="f-linkedin" placeholder="linkedin.com/in/…"></div>
+    <div class="form-row"><label class="form-label">📸 Instagram</label><input class="form-input" id="f-instagram" placeholder="instagram.com/handle"></div>
+    <div class="form-row"><label class="form-label">👍 Facebook</label><input class="form-input" id="f-facebook" placeholder="facebook.com/page"></div>
+    <div class="form-row"><label class="form-label">Street Address</label><input class="form-input" id="f-address" placeholder="123 Main St"></div>
+    <div class="form-grid">
+      <div class="form-row"><label class="form-label">City</label><input class="form-input" id="f-city" placeholder="McLean"></div>
+      <div class="form-row"><label class="form-label">State</label><input class="form-input" id="f-state" placeholder="VA" maxlength="2"></div>
+    </div>
+    <div class="form-row"><label class="form-label">Follow-up Reminder Date</label><input class="form-input" type="date" id="f-reminder"></div>
+    <div class="form-row"><label class="form-label">Opening Note</label><textarea class="form-input" id="f-notes" placeholder="How you met, mutual connections, what they care about…" style="min-height:70px;resize:vertical"></textarea></div>
+    <div class="modal-actions">
+      <button class="add-contact-btn" onclick="saveContact()">Save Contact</button>
+      <button class="btn-cancel" onclick="closeModal('addModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD CATEGORY MODAL -->
+<div class="modal-overlay" id="catModal">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-title">Add Category</div>
+    <div class="modal-sub">Create a new group for your contacts</div>
+    <div class="form-row"><label class="form-label">Category Name *</label><input class="form-input" id="f-catname" placeholder="e.g. Interior Designers"></div>
+    <div class="form-row"><label class="form-label">Icon (emoji)</label><input class="form-input" id="f-caticon" placeholder="🏡" maxlength="4"></div>
+    <div class="modal-actions">
+      <button class="add-contact-btn" onclick="saveCategory()">Add Category</button>
+      <button class="btn-cancel" onclick="closeModal('catModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD EVENT MODAL -->
+<div class="modal-overlay" id="eventModal">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-title" id="eventModalTitle">Add Calendar Event</div>
+    <div class="modal-sub">Schedule an outreach activity or follow-up</div>
+    <div class="form-row"><label class="form-label">Event Title *</label><input class="form-input" id="ev-title" placeholder="Drop off Al Fresco at Artisan Builders"></div>
+    <div class="form-grid">
+      <div class="form-row"><label class="form-label">Date *</label><input class="form-input" type="date" id="ev-date"></div>
+      <div class="form-row"><label class="form-label">Time</label><input class="form-input" type="time" id="ev-time"></div>
+    </div>
+    <div class="form-row"><label class="form-label">Event Type</label>
+      <select class="form-select" id="ev-type">
+        <option value="outreach">Outreach / Drop-off</option>
+        <option value="meeting">Meeting</option>
+        <option value="followup">Follow-up Call</option>
+        <option value="event">Networking Event</option>
+        <option value="magazine">Magazine Delivery</option>
+        <option value="personal">Personal Reminder</option>
+      </select>
+    </div>
+    <div class="form-row"><label class="form-label">Linked Contact (optional)</label>
+      <select class="form-select" id="ev-contact"><option value="">— None —</option></select>
+    </div>
+    <div class="form-row"><label class="form-label">Notes</label>
+      <textarea class="form-input" id="ev-notes" placeholder="What's the goal of this touchpoint?" style="min-height:65px;resize:vertical"></textarea>
+    </div>
+    <input type="hidden" id="ev-editing-id">
+    <div class="modal-actions">
+      <button class="add-contact-btn" onclick="saveEvent()">Save Event</button>
+      <button class="btn-cancel" onclick="closeModal('eventModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- EVENT DETAIL MODAL -->
+<div class="modal-overlay" id="eventDetailModal">
+  <div class="modal event-detail-modal">
+    <div id="eventDetailContent"></div>
+    <div class="modal-actions" style="margin-top:16px">
+      <button class="add-contact-btn" onclick="editEventFromDetail()">Edit</button>
+      <button class="btn-cancel" onclick="closeModal('eventDetailModal')">Close</button>
+      <button class="btn-delete" style="margin-left:auto" onclick="deleteEventFromDetail()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════
+const CATEGORIES = [
+  { id: 'builder', label: 'Luxury Builders', icon: '🏗️', colorClass: 'cat-builder' },
+  { id: 'developer', label: 'Luxury Developers', icon: '🏢', colorClass: 'cat-developer' },
+  { id: 'architect', label: 'Architects', icon: '📐', colorClass: 'cat-architect' },
+  { id: 'wealth', label: 'Wealth Managers', icon: '💰', colorClass: 'cat-wealth' },
+  { id: 'boutique', label: 'Boutique Wealth Mgmt', icon: '💎', colorClass: 'cat-boutique' },
+  { id: 'club', label: 'Country Clubs', icon: '⛳', colorClass: 'cat-club' },
+  { id: 'realestate', label: 'Luxury RE Teams', icon: '🏡', colorClass: 'cat-realestate' },
+  { id: 'sports', label: 'Sports Agents & Execs', icon: '🏆', colorClass: 'cat-sports' },
+  { id: 'pe', label: 'Private Equity Firms', icon: '📈', colorClass: 'cat-pe' },
+  { id: 'medical', label: 'Doctors & Medical', icon: '🩺', colorClass: 'cat-medical' },
+  { id: 'pipeline', label: 'Clients in Pipeline', icon: '🔥', colorClass: 'cat-pipeline' },
+  { id: 'secured', label: 'Clients Secured', icon: '✅', colorClass: 'cat-secured' },
+];
+
+const TOUCHPOINTS = [
+  { id: 'linkedin', label: 'LinkedIn Connect' },
+  { id: 'instagram', label: '📸 Instagram DM/Follow' },
+  { id: 'facebook', label: '👍 Facebook Message' },
+  { id: 'magazine', label: '📖 Magazine Delivered' },
+  { id: 'note', label: '✉️ Handwritten Note' },
+  { id: 'email', label: 'Email Sent' },
+  { id: 'call', label: 'Phone Call' },
+  { id: 'meeting', label: 'In-Person Meeting' },
+  { id: 'event', label: 'Met at Event' },
+  { id: 'proposal', label: 'Proposal Sent' },
+];
+
+const STATUS_CONFIG = {
+  new: { label: 'New', color: '#4A9EBF', cls: 's-new' },
+  contacted: { label: 'Contacted', color: '#C9A84C', cls: 's-contacted' },
+  meeting: { label: 'Meeting Set', color: '#9B7ED4', cls: 's-meeting' },
+  proposal: { label: 'Proposal', color: '#F5A623', cls: 's-proposal' },
+  partner: { label: 'Partner ✓', color: '#4CAF50', cls: 's-partner' },
+  nurture: { label: 'Nurture', color: '#555', cls: 's-nurture' },
+};
+
+const EVENT_TYPES = {
+  outreach: { label: 'Outreach', color: '#C9A84C', cls: 'ev-outreach' },
+  meeting: { label: 'Meeting', color: '#9B7ED4', cls: 'ev-meeting' },
+  followup: { label: 'Follow-up', color: '#4A9EBF', cls: 'ev-followup' },
+  event: { label: 'Networking', color: '#4CAF50', cls: 'ev-event' },
+  magazine: { label: 'Magazine Delivery', color: '#F5A623', cls: 'ev-magazine' },
+  personal: { label: 'Personal', color: '#E8A0C0', cls: 'ev-personal' },
+};
+
+const SEED_CONTACTS = [
+  { id:'c1', fname:'TriCrest', lname:'Homes', company:'TriCrest Homes', title:'Builder Partner', category:'builder', status:'partner', phone:'(703) 984-9738', email:'info@tricresthomes.com', linkedin:'linkedin.com/company/tricrest-homes-llc', address:'1221 Stuart Robeson Dr', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:['linkedin','meeting'], notes:[], verified:'prefilled' },
+  { id:'c2', fname:'Artisan', lname:'Builders', company:'Artisan Builders', title:'Custom Builder', category:'builder', status:'new', phone:'(703) 883-0202', email:'hello@artisanbuilds.com', linkedin:'linkedin.com/company/artisan-builders-llc', address:'6862 Elm St, Suite 410', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'prefilled' },
+  { id:'c3', fname:'RKB', lname:'Custom Homes', company:'RKB Custom Homes', title:'Custom Builder — Jay Bhalla', category:'builder', status:'new', phone:'', email:'', linkedin:'linkedin.com/in/jay-bhalla-62a320262', address:'10501 Tulip Lane', city:'Potomac', state:'MD', instagram:'instagram.com/rkbcustomhomes', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'prefilled' },
+  { id:'c4', fname:'Meridian', lname:'Homes', company:'Meridian Homes Inc.', title:'Luxury Builder — Jonathan & Michael Lerner', category:'builder', status:'new', phone:'(301) 652-4440', email:'info@meridianhomesinc.com', linkedin:'linkedin.com/company/meridian-homes-inc-', address:'4938 Hampden Ln, Suite 330', city:'Bethesda', state:'MD', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'prefilled' },
+  { id:'c5', fname:'Botero', lname:'Homes', company:'Botero Homes', title:'Design-Forward Builder', category:'builder', status:'new', phone:'(202) 515-0020', email:'', linkedin:'', address:'11150 Sunset Hills Rd, Ste 309', city:'Reston', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'prefilled' },
+  { id:'c6', fname:'Cherry Hill', lname:'Custom Homes', company:'Cherry Hill Custom Homes', title:'Custom Builder — Craig & Meredith Hartsock', category:'builder', status:'new', phone:'(571) 378-1782', email:'', linkedin:'linkedin.com/company/cherry-hill-custom-homes', address:'6716 Old McLean Village Dr, Suite 200', city:'McLean', state:'VA', instagram:'instagram.com/cherryhillcustomhomesva', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'prefilled' },
+  { id:'c7', fname:'Gulick', lname:'Group', company:'Gulick Group', title:'Luxury Builder/Developer', category:'builder', status:'new', phone:'(703) 674-0330', email:'', linkedin:'', address:'11790 Sunrise Valley Dr, Ste 2', city:'Reston', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'prefilled' },
+  { id:'c8', fname:'Brush Arbor', lname:'Homes', company:'Brush Arbor Homes', title:'Custom Builder', category:'builder', status:'new', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'d1', fname:'Kettler', lname:'Brothers', company:'KETTLER', title:'Luxury Developer', category:'developer', status:'new', phone:'(703) 641-9000', email:'', linkedin:'', address:'8255 Greensboro Dr, Suite 200', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'prefilled' },
+  { id:'d2', fname:'Miller', lname:'& Smith', company:'Miller & Smith Homes', title:'Luxury Developer', category:'developer', status:'new', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'d3', fname:'Craftmark', lname:'Homes', company:'Craftmark Homes', title:'Builder/Developer', category:'developer', status:'new', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'d4', fname:'NVR', lname:'Luxury', company:'NVR / Ryan Homes Luxury', title:'Developer', category:'developer', status:'new', phone:'', email:'', linkedin:'', address:'', city:'Reston', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'d5', fname:'Winthrop', lname:'Custom Builders', company:'Winthrop Custom Builders', title:'Custom Developer', category:'developer', status:'new', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'a1', fname:'James', lname:'MacDonald', company:'James MacDonald Architect', title:'Principal Architect', category:'architect', status:'partner', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:['meeting','linkedin'], notes:[], verified:'unverified' },
+  { id:'a2', fname:'Paradigm', lname:'Architecture', company:'Paradigm Architecture', title:'Architecture Firm', category:'architect', status:'partner', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:['meeting'], notes:[], verified:'unverified' },
+  { id:'a3', fname:'AV', lname:'Architects + Builders', company:'AV Architects + Builders', title:'Architecture + Build Firm', category:'architect', status:'new', phone:'', email:'', linkedin:'', address:'', city:'Great Falls', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'a4', fname:'Donald', lname:'Lococo', company:'Donald Lococo Architects', title:'Principal Architect', category:'architect', status:'new', phone:'(202) 337-4422', email:'donald@lococoarchitecture.com', linkedin:'linkedin.com/company/donald-lococo-architects', address:'5109 Wissioming Rd', city:'Bethesda', state:'MD', instagram:'instagram.com/donaldlococoarchitects', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'prefilled' },
+  { id:'a5', fname:'Moore', lname:'Architects', company:'Moore Architects', title:'Architecture Firm', category:'architect', status:'new', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'a6', fname:'Nawrocki', lname:'Architects', company:'Nawrocki Architects', title:'Principal Architect', category:'architect', status:'new', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'w1', fname:'Cassaday', lname:'& Company', company:'Cassaday & Company', title:'Wealth Management — Steve Cassaday', category:'wealth', status:'new', phone:'', email:'', linkedin:'linkedin.com/company/cassaday-&-company-inc.', address:'8180 Greensboro Dr, Suite 1180', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'prefilled' },
+  { id:'w2', fname:'West Financial', lname:'Services', company:'West Financial Services', title:'Wealth Management Firm', category:'wealth', status:'new', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'w3', fname:'Creative', lname:'Planning', company:'Creative Planning', title:'Wealth Management Firm', category:'wealth', status:'new', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'w4', fname:'SageVest', lname:'Wealth Management', company:'SageVest Wealth Management', title:'Wealth Mgmt Firm', category:'wealth', status:'new', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'w5', fname:'CJM', lname:'Wealth Advisers', company:'CJM Wealth Advisers', title:'Wealth Management Firm', category:'wealth', status:'new', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'b1', fname:'Glassman', lname:'Wealth Services', company:'Glassman Wealth Services', title:'Boutique Wealth Mgmt', category:'boutique', status:'new', phone:'(703) 534-4444', email:'info@glassmanwealth.com', linkedin:'linkedin.com/company/glassman-wealth-services', address:'8000 Towers Crescent Dr, Suite 1450', city:'Vienna', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'prefilled' },
+  { id:'b2', fname:'Monument', lname:'Wealth Management', company:'Monument Wealth Management', title:'Boutique Wealth Mgmt', category:'boutique', status:'new', phone:'', email:'', linkedin:'', address:'', city:'Alexandria', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'b3', fname:'Sovereign', lname:'Wealth Management', company:'Sovereign Wealth Management', title:'Boutique Wealth Mgmt', category:'boutique', status:'new', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'b4', fname:'Bogart', lname:'Wealth', company:'Bogart Wealth', title:'Boutique Wealth Mgmt', category:'boutique', status:'new', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'b5', fname:'Pathstone', lname:'Federal Street', company:'Pathstone Federal Street', title:'Boutique Wealth Mgmt', category:'boutique', status:'new', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'cl1', fname:'River Bend Golf', lname:'& CC', company:'River Bend Golf & Country Club', title:'Country Club', category:'club', status:'new', phone:'(703) 759-2453', email:'', linkedin:'', address:'45145 Winmeade Dr', city:'Leesburg', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'prefilled' },
+  { id:'cl2', fname:'Washington Golf', lname:'& CC', company:'Washington Golf & Country Club', title:'Country Club', category:'club', status:'new', phone:'(703) 237-5113', email:'', linkedin:'', address:'1601 Country Club Dr', city:'Arlington', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'prefilled' },
+  { id:'cl3', fname:'International', lname:'CC', company:'International Country Club', title:'Country Club', category:'club', status:'new', phone:'(703) 759-2600', email:'', linkedin:'', address:'5600 Army Navy Dr', city:'Fairfax', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'prefilled' },
+  { id:'cl4', fname:'Trump National', lname:'Golf Club', company:'Trump National Golf Club', title:'Country Club', category:'club', status:'new', phone:'(703) 723-9700', email:'', linkedin:'', address:'20391 Lowes Island Blvd', city:'Sterling', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'prefilled' },
+  { id:'cl5', fname:'Army Navy', lname:'CC', company:'Army Navy Country Club', title:'Country Club', category:'club', status:'new', phone:'(703) 525-1200', email:'', linkedin:'', address:'1700 Army Navy Dr', city:'Arlington', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'prefilled' },
+  { id:'r1', fname:'Casey', lname:'Margenau', company:'Casey Margenau Fine Homes', title:'Luxury RE Team Lead', category:'realestate', status:'new', phone:'(703) 745-1900', email:'casey@caseymargenauhomes.com', linkedin:'linkedin.com/in/caseymargenau', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'prefilled' },
+  { id:'r2', fname:'Kat', lname:'Massetti', company:'The Haven Group (SERHANT)', title:'Founder', category:'realestate', status:'new', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'r3', fname:'Nadia', lname:'Khan', company:'Nadia Khan Estates', title:'Luxury RE Agent', category:'realestate', status:'new', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'r4', fname:'Devon & Dustin', lname:'Fox', company:'Fox Homes Team', title:'Co-Founders', category:'realestate', status:'new', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'r5', fname:'Sherif', lname:'Abdalla', company:'Compass (Abdalla Group)', title:'Luxury RE Team Lead', category:'realestate', status:'new', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'r6', fname:'Mark', lname:'Goedde', company:'Long & Foster McLean', title:'RE Team Lead', category:'realestate', status:'new', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'r7', fname:'Aaron', lname:'Podolsky', company:'Compass Alexandria', title:'RE Team Lead', category:'realestate', status:'new', phone:'', email:'', linkedin:'', address:'', city:'Alexandria', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'r8', fname:'David', lname:'Wolfe', company:'Compass Arlington', title:'RE Team Lead', category:'realestate', status:'new', phone:'', email:'', linkedin:'', address:'', city:'Arlington', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'r9', fname:'William Close', lname:'Group', company:'William Close Group', title:'Luxury RE Team', category:'realestate', status:'new', phone:'', email:'', linkedin:'', address:'', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'unverified' },
+  { id:'r10', fname:'BOWA', lname:'Design Build', company:'BOWA', title:'Luxury Interior & Remodel', category:'realestate', status:'new', phone:'(703) 734-9050', email:'', linkedin:'', address:'1010 N. Glebe Rd, Suite 400', city:'Arlington', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[], verified:'prefilled' },
+
+  // SPORTS AGENTS & EXECUTIVES
+  { id:'sp1', fname:'Octagon', lname:'Sports (McLean HQ)', company:'Octagon', title:'Sports & Entertainment Agency', category:'sports', status:'new', phone:'(703) 905-3300', email:'', linkedin:'linkedin.com/company/octagon', address:'2022 Campus Dr', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'Co-headquartered in McLean, VA. One of the top global sports agencies. Represents Stephen Curry, Simone Biles, Giannis. Huge DMV presence — find the VP of Talent in the McLean office. Dropping off Al Fresco here could open doors to athlete clients buying luxury homes.', ts: Date.now()-86400000}], verified:'prefilled' },
+  { id:'sp2', fname:'Excel Sports', lname:'Management', company:'Excel Sports Management', title:'Top Sports Agency (NBA/MLB)', category:'sports', status:'new', phone:'', email:'', linkedin:'linkedin.com/company/excel-sports-management', address:'', city:'New York', state:'NY', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'Jeff Schwartz is CEO. Massive NBA and MLB roster. Based in NY but strong DMV athlete client base. LinkedIn outreach to their DC-area agent reps. Athletes with $100M+ contracts buy luxury homes in NoVA.', ts: Date.now()-86400000}], verified:'unverified' },
+  { id:'sp3', fname:'Klutch Sports', lname:'Group (UTA)', company:'Klutch Sports Group / UTA', title:'Top Multi-Sport Agency', category:'sports', status:'new', phone:'', email:'', linkedin:'linkedin.com/company/klutch-sports-group', address:'', city:'Los Angeles', state:'CA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'Rich Paul founded, UTA-backed. Represents Jalen Hurts, LeBron James, A\'ja Wilson, Myles Garrett. DMV athlete clients include Commanders and Wizards players. Fast-growing agency — find the football agents handling Commanders players.', ts: Date.now()-86400000}], verified:'unverified' },
+  { id:'sp4', fname:'Monumental Sports', lname:'& Entertainment', company:'Monumental Sports & Entertainment', title:'Team Executive Group', category:'sports', status:'new', phone:'(202) 266-2000', email:'', linkedin:'linkedin.com/company/monumental-sports-entertainment', address:'601 F St NW', city:'Washington', state:'DC', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'Owns Washington Wizards, Capitals, Mystics, Valor. Ted Leonsis is owner. Based in DC/NoVA. Front office execs (GMs, VPs) earn significant comp and buy/renovate luxury homes. Target: VP of Basketball Ops, Director of Player Personnel.', ts: Date.now()-86400000}], verified:'prefilled' },
+  { id:'sp5', fname:'Washington Commanders', lname:'Front Office', company:'Washington Commanders (NFL)', title:'Team Executives', category:'sports', status:'new', phone:'(703) 726-7000', email:'', linkedin:'', address:'1600 Fedex Way', city:'Landover', state:'MD', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'Josh Harris ownership group. Front office VPs, coaches, and coordinators all earn 7-figure compensation. Many live in Great Falls, McLean, Potomac. Player personnel and coaching staff are prime luxury pool buyers.', ts: Date.now()-86400000}], verified:'prefilled' },
+  { id:'sp6', fname:'Washington Nationals', lname:'Front Office', company:'Washington Nationals (MLB)', title:'Team Executives', category:'sports', status:'new', phone:'(202) 349-0400', email:'', linkedin:'', address:'1500 South Capitol St SE', city:'Washington', state:'DC', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'Based at Nationals Park, DC. Front office executives and coaches with high comp packages live in NoVA suburbs. Target player development and coaching staff — they\'re in the DMV year-round.', ts: Date.now()-86400000}], verified:'prefilled' },
+  { id:'sp7', fname:'Athletes First', lname:'Sports Agency', company:'Athletes First', title:'Top NFL Agency', category:'sports', status:'new', phone:'', email:'', linkedin:'linkedin.com/company/athletes-first', address:'', city:'Laguna Hills', state:'CA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'One of the largest NFL agencies. Represents Dak Prescott, Justin Herbert, Micah Parsons. Many clients play for or against DMV teams. Agent reps travel to DC area frequently. LinkedIn outreach to the football agents covering NFC East players.', ts: Date.now()-86400000}], verified:'unverified' },
+  { id:'sp8', fname:'CAA Sports', lname:'(Football Division)', company:'Creative Artists Agency — Sports', title:'Premier Sports Agency', category:'sports', status:'new', phone:'', email:'', linkedin:'linkedin.com/company/caa-sports', address:'', city:'Los Angeles', state:'CA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'#1 sports agency globally. DMV-area athlete clients include Commanders players and Nationals. Recently hired Tory Dandy as equity partner. Drop Al Fresco at their DC-area offices or reach via LinkedIn.', ts: Date.now()-86400000}], verified:'unverified' },
+
+  // PRIVATE EQUITY
+  { id:'pe1', fname:'The Carlyle', lname:'Group', company:'The Carlyle Group', title:'Global PE Firm', category:'pe', status:'new', phone:'(202) 729-5626', email:'', linkedin:'linkedin.com/company/the-carlyle-group', address:'1001 Pennsylvania Ave NW', city:'Washington', state:'DC', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'Founded in DC, HQ at 1001 Pennsylvania Ave NW. $465B AUM. One of world\'s largest PE firms. Partners and MDs earn 8-figure compensation — classic luxury pool buyer. Target: Managing Directors and Partners in the DC office. Drop Al Fresco at reception.', ts: Date.now()-86400000}], verified:'prefilled' },
+  { id:'pe2', fname:'Arlington Capital', lname:'Partners', company:'Arlington Capital Partners', title:'DC-Based PE Firm', category:'pe', status:'new', phone:'', email:'', linkedin:'linkedin.com/company/arlington-capital-partners', address:'', city:'Washington', state:'DC', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'Based in Washington DC. Middle market PE focused on government services, defense, healthcare, tech. Partners and principals live in NoVA suburbs — McLean, Great Falls, Vienna. High comp, long investment horizons = stable buyer.', ts: Date.now()-86400000}], verified:'unverified' },
+  { id:'pe3', fname:'Sands Capital', lname:'Management', company:'Sands Capital Management', title:'Arlington-Based Investment Firm', category:'pe', status:'new', phone:'(703) 312-4000', email:'', linkedin:'linkedin.com/company/sands-capital-management', address:'1000 Wilson Blvd, Suite 3000', city:'Arlington', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'Based in Arlington, VA. $53B+ AUM. Growth equity and venture focus. Leadership and PMs earn significant comp. Very NoVA-embedded — staff likely lives in McLean, Falls Church, Arlington. Warm outreach via LinkedIn.', ts: Date.now()-86400000}], verified:'prefilled' },
+  { id:'pe4', fname:'EJF Capital', lname:'LLC', company:'EJF Capital LLC', title:'Arlington-Based Alternative Asset Mgmt', category:'pe', status:'new', phone:'(703) 246-9100', email:'', linkedin:'linkedin.com/company/ejf-capital', address:'2107 Wilson Blvd, Suite 410', city:'Arlington', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'Founded 2005, based in Arlington. $6B AUM in alternative assets. Boutique enough that partners are accessible. LinkedIn outreach to Managing Directors and Partners.', ts: Date.now()-86400000}], verified:'prefilled' },
+  { id:'pe5', fname:'HCI Equity', lname:'Partners', company:'HCI Equity Partners', title:'DC-Based PE Firm', category:'pe', status:'new', phone:'(202) 466-4790', email:'', linkedin:'linkedin.com/company/hci-equity-partners', address:'1730 Rhode Island Ave NW, Suite 400', city:'Washington', state:'DC', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'Washington DC based. Lower middle market focus — manufacturing, services, distribution. Partners and principals are NoVA residents. Smaller firm = more accessible leadership. Good target for Al Fresco drop-off.', ts: Date.now()-86400000}], verified:'prefilled' },
+  { id:'pe6', fname:'Willow Creek', lname:'Partners', company:'Willow Creek Partners', title:'Tysons-Based PE Firm', category:'pe', status:'new', phone:'', email:'', linkedin:'', address:'', city:'Tysons', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'Based in Tysons, VA. Invests in real estate and government services. Tysons location = principals living in McLean and Great Falls. Real estate focus means they understand property value and outdoor improvements.', ts: Date.now()-86400000}], verified:'unverified' },
+
+  // MEDICAL — PLASTIC SURGERY
+  { id:'md1', fname:'Dr. Alex', lname:'Mesbahi', company:'Mesbahi Plastic Surgery — McLean', title:'Board-Certified Plastic Surgeon', category:'medical', status:'new', phone:'(703) 463-7695', email:'', linkedin:'', address:'1355 Beverly Rd, Suite 260', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'McLean, DC, Beverly Hills. Recognized Top Plastic Surgeon by Washingtonian and Northern Virginia Magazines. High-volume luxury practice. Clients are exactly our buyer. Drop off Al Fresco + introduce referral relationship. Patient base is affluent NoVA.', ts: Date.now()-86400000}], verified:'prefilled' },
+  { id:'md2', fname:'Dr. Munique', lname:'Maia', company:'Maia Plastic Surgery — Tysons', title:'Board-Certified Plastic Surgeon', category:'medical', status:'new', phone:'(703) 448-9400', email:'', linkedin:'', address:'8101 Gatehouse Rd, Suite 104', city:'Falls Church', state:'VA', instagram:'instagram.com/maiaplasticsurgery', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'Tysons Corner. Featured in Vogue as "Influential Women of Washington." High-end clientele. Appeared in NY Times. Her patients are exactly our buyer demographic — executive women in McLean and Great Falls.', ts: Date.now()-86400000}], verified:'prefilled' },
+  { id:'md3', fname:'Dr. Navin', lname:'Singh', company:'Washingtonian Plastic Surgery — McLean', title:'Dual Board-Certified Plastic Surgeon', category:'medical', status:'new', phone:'(703) 291-5440', email:'', linkedin:'', address:'1635 N George Mason Dr', city:'Arlington', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'McLean and DC offices. Harvard and Brown credentials, former Johns Hopkins director. Award-winning top surgeon. Very high-end patient base. Ideal referral partner — his patients are renovating luxury homes.', ts: Date.now()-86400000}], verified:'prefilled' },
+  { id:'md4', fname:'Austin-Weston', lname:'Center', company:'Austin-Weston Center for Cosmetic Surgery', title:'Premier Cosmetic Surgery Practice — Reston', category:'medical', status:'new', phone:'(703) 893-6168', email:'', linkedin:'', address:'11150 Sunset Hills Rd, Suite 200', city:'Reston', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'Reston, VA. One of the most respected cosmetic surgery practices on the East Coast. 5 OR suites, concierge-level service. Patient base spans Loudoun County to NoVA. Large volume = large referral opportunity.', ts: Date.now()-86400000}], verified:'prefilled' },
+  { id:'md5', fname:'Dr. Gloria', lname:'Duda', company:'McLean Plastic Surgery + MedSpa', title:'Board-Certified Plastic Surgeon', category:'medical', status:'new', phone:'(703) 356-2933', email:'', linkedin:'', address:'1420 Beverly Rd, Suite 201', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'McLean, VA. 50+ years combined experience with Dr. Anderson. McLean practice = McLean patients = our exact buyer. Introduce as the luxury outdoor living complement to their aesthetic practice.', ts: Date.now()-86400000}], verified:'prefilled' },
+
+  // MEDICAL — CONCIERGE
+  { id:'md6', fname:'PartnerMD', lname:'McLean', company:'PartnerMD — McLean', title:'Concierge Medicine Practice', category:'medical', status:'new', phone:'(804) 527-1960', email:'', linkedin:'', address:'7700 Leesburg Pike, Suite 100', city:'Falls Church', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'Concierge medicine practice specifically targeting Tysons Corner business executives and affluent families. $1,900/year membership. Their entire patient base is our buyer. Introduce as a lifestyle partner — Al Fresco drop-off is a perfect opening.', ts: Date.now()-86400000}], verified:'prefilled' },
+  { id:'md7', fname:'Dr. Cynthia', lname:'Burns', company:'MDVIP Great Falls — Beyond Concierge Medicine', title:'Concierge Internal Medicine', category:'medical', status:'new', phone:'(703) 759-9300', email:'', linkedin:'', address:'10317 Democracy Ln', city:'Fairfax', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'Great Falls, VA. MDVIP-affiliated concierge practice. Patient panel is small and exclusively HNW Great Falls, McLean, Vienna residents. She knows her patients personally — a referral from her is worth 10 cold calls.', ts: Date.now()-86400000}], verified:'prefilled' },
+  { id:'md8', fname:'NOVAMED', lname:'Associates', company:'NOVAMED Associates Concierge Care — Fairfax', title:'Concierge Medicine Practice', category:'medical', status:'new', phone:'', email:'', linkedin:'', address:'', city:'Fairfax', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'Fairfax, VA concierge practice. 24/7 availability to HNW patients in NoVA. Small, exclusive patient panel. Boutique enough that the physicians are very accessible. Great Al Fresco introduction opportunity.', ts: Date.now()-86400000}], verified:'unverified' },
+  { id:'md9', fname:'Executive Healthcare', lname:'Services', company:'Executive Healthcare Services — Reston', title:'Concierge Medicine Practice', category:'medical', status:'new', phone:'', email:'', linkedin:'', address:'', city:'Reston', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'Reston, VA. Independent concierge practice (not MDVIP) serving Reston/McLean/Great Falls executives. Founded by family doctors who wanted to provide "unique care" beyond the MDVIP model. Their panel = top executives across NoVA.', ts: Date.now()-86400000}], verified:'unverified' },
+  { id:'md10', fname:'Dr. Ambrish', lname:'Gupta', company:'MDVIP McLean — Concierge Internal Medicine', title:'Concierge Internal Medicine', category:'medical', status:'new', phone:'(703) 356-5253', email:'', linkedin:'', address:'1355 Beverly Rd, Suite 250', city:'McLean', state:'VA', instagram:'', facebook:'', reminder:'', touchpoints:[], notes:[{id:'n0', text:'McLean MDVIP. 30+ years in NoVA, cardiovascular and preventive medicine focus. Long-standing patient relationships in McLean. His patients are executives and affluent families — ideal pool buyers.', ts: Date.now()-86400000}], verified:'prefilled' },
+];
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+// Migrate old contacts (notes was string, now array)
+function migrateContacts(raw) {
+  return raw.map(c => {
+    if (!Array.isArray(c.notes)) {
+      const text = (c.notes || '').trim();
+      c.notes = text ? [{ id: 'n0', text, ts: Date.now() - 86400000 }] : [];
+    }
+    if (!c.instagram) c.instagram = '';
+    if (!c.facebook) c.facebook = '';
+    if (!Array.isArray(c.customTouchpoints)) c.customTouchpoints = [];
+    if (!c.verified) c.verified = 'unverified';
+    if (!c.address) c.address = '';
+    if (!c.city) c.city = '';
+    if (!c.state) c.state = '';
+    return c;
+  });
+}
+
+let contacts = migrateContacts(JSON.parse(localStorage.getItem('paCrmContacts') || 'null') || JSON.parse(JSON.stringify(SEED_CONTACTS)));
+let categories = JSON.parse(localStorage.getItem('paCrmCats') || 'null') || JSON.parse(JSON.stringify(CATEGORIES));
+let calEvents = JSON.parse(localStorage.getItem('paCrmEvents') || '[]');
+let currentView = 'all';
+let currentCategory = null;
+let currentCalYear = new Date().getFullYear();
+let currentCalMonth = new Date().getMonth();
+let viewingEventId = null;
+
+function save() {
+  localStorage.setItem('paCrmContacts', JSON.stringify(contacts));
+  localStorage.setItem('paCrmCats', JSON.stringify(categories));
+  localStorage.setItem('paCrmEvents', JSON.stringify(calEvents));
+}
+
+function fmtTs(ts) {
+  const d = new Date(ts);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ' · ' +
+    d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+}
+
+// ═══════════════════════════════════════
+// SIDEBAR + STATS
+// ═══════════════════════════════════════
+function renderSidebar() {
+  const catNav = document.getElementById('catNav');
+  catNav.innerHTML = categories.map(cat => {
+    const count = contacts.filter(c => c.category === cat.id).length;
+    const activeClass = currentView === 'cat' && currentCategory === cat.id ? 'active' : '';
+    return `<div class="nav-item ${activeClass}" onclick="setViewCat('${cat.id}')">
+      <span class="nav-icon">${cat.icon}</span> ${cat.label}
+      <span class="nav-count">${count}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('count-all').textContent = contacts.length;
+  const today = new Date(); today.setHours(0,0,0,0);
+  document.getElementById('count-reminders').textContent = contacts.filter(c => c.reminder && new Date(c.reminder) <= today).length;
+  document.getElementById('count-contacted').textContent = contacts.filter(c => c.status !== 'new').length;
+  document.getElementById('count-tocontact').textContent = contacts.filter(c => c.status === 'new').length;
+  document.getElementById('count-events').textContent = calEvents.length;
+  ['all','calendar','reminders','contacted','tocontact','location'].forEach(v => {
+    const el = document.getElementById('nav-' + v);
+    if (el) el.classList.toggle('active', currentView === v);
+  });
+}
+
+function renderStats() {
+  document.getElementById('stat-total').textContent = contacts.length;
+  document.getElementById('stat-contacted').textContent = contacts.filter(c => c.status !== 'new').length;
+  document.getElementById('stat-magazine').textContent = contacts.filter(c => c.touchpoints.includes('magazine')).length;
+  document.getElementById('stat-meeting').textContent = contacts.filter(c => c.status === 'meeting' || c.touchpoints.includes('meeting')).length;
+  document.getElementById('stat-partner').textContent = contacts.filter(c => c.status === 'partner').length;
+}
+
+// ═══════════════════════════════════════
+// CONTACTS RENDER
+// ═══════════════════════════════════════
+function renderContacts() {
+  if (currentView === 'calendar') { renderCalendar(); return; }
+  const content = document.getElementById('mainContent');
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  let filtered = contacts.filter(c => {
+    const q = `${c.fname} ${c.lname} ${c.company} ${c.title} ${c.notes.map(n=>n.text).join(' ')}`.toLowerCase();
+    return q.includes(search);
+  });
+  const today = new Date(); today.setHours(0,0,0,0);
+  if (currentView === 'cat') filtered = filtered.filter(c => c.category === currentCategory);
+  else if (currentView === 'reminders') filtered = filtered.filter(c => c.reminder && new Date(c.reminder) <= today);
+  else if (currentView === 'contacted') filtered = filtered.filter(c => c.status !== 'new');
+  else if (currentView === 'tocontact') filtered = filtered.filter(c => c.status === 'new');
+  else if (currentView === 'location') { renderLocation(filtered); return; }
+
+  if (filtered.length === 0) {
+    content.innerHTML = `<div class="empty-state"><div class="empty-icon">✦</div><div class="empty-text">No contacts found</div></div>`;
+    return;
+  }
+
+  let html = '';
+  if (currentView === 'all' && !search) {
+    const grouped = {};
+    categories.forEach(cat => { grouped[cat.id] = []; });
+    grouped['_custom'] = [];
+    filtered.forEach(c => { (grouped[c.category] !== undefined ? grouped[c.category] : grouped['_custom']).push(c); });
+    categories.forEach(cat => {
+      if (grouped[cat.id] && grouped[cat.id].length > 0) {
+        html += `<div style="margin-bottom:28px;"><div class="table-header"><div class="table-title">${cat.icon} ${cat.label}</div></div><div class="contacts-grid">${grouped[cat.id].map(c => contactCardHTML(c)).join('')}</div></div>`;
+      }
+    });
+    const customCats = {};
+    grouped['_custom'].forEach(c => { customCats[c.category] = customCats[c.category] || []; customCats[c.category].push(c); });
+    Object.keys(customCats).forEach(catId => {
+      html += `<div style="margin-bottom:28px;"><div class="table-header"><div class="table-title">📋 ${catId}</div></div><div class="contacts-grid">${customCats[catId].map(c => contactCardHTML(c)).join('')}</div></div>`;
+    });
+  } else {
+    if (currentView === 'reminders') html += `<div class="table-header"><div class="table-title">⏰ Follow-up Reminders Due</div></div>`;
+    if (currentView === 'contacted') html += `<div class="table-header"><div class="table-title">✅ Contacts Reached</div></div>`;
+    if (currentView === 'tocontact') html += `<div class="table-header"><div class="table-title">📬 Still To Contact</div></div>`;
+    html += `<div class="contacts-grid">${filtered.map(c => contactCardHTML(c)).join('')}</div>`;
+  }
+  content.innerHTML = html;
+}
+
+function contactCardHTML(c) {
+  const status = STATUS_CONFIG[c.status] || STATUS_CONFIG.new;
+  const cat = categories.find(x => x.id === c.category) || { label: c.category, colorClass: 'cat-custom', icon: '📋' };
+  const tpCount = (c.touchpoints||[]).length;
+  const today = new Date(); today.setHours(0,0,0,0);
+  let reminderHTML = '';
+  if (c.reminder) {
+    const rd = new Date(c.reminder);
+    const diff = Math.ceil((rd - today) / (1000*60*60*24));
+    if (diff <= 0) reminderHTML = `<span class="reminder-badge reminder-due">Due${diff < 0 ? ' '+Math.abs(diff)+'d ago':' Today'}</span>`;
+    else if (diff <= 7) reminderHTML = `<span class="reminder-badge reminder-upcoming">In ${diff}d</span>`;
+    else reminderHTML = `<span class="reminder-badge reminder-clear">${new Date(c.reminder).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span>`;
+  } else { reminderHTML = `<span class="reminder-badge reminder-clear">No Reminder</span>`; }
+
+  return `<div class="contact-card" id="card-${c.id}">
+    <div class="contact-main" onclick="toggleCard('${c.id}')">
+      <div>
+        <div class="contact-name">${c.fname} ${c.lname}${c.verified==='verified'?' <span style="font-size:10px;color:var(--green)">✓</span>':c.verified==='prefilled'?' <span style="font-size:10px;color:var(--orange)">◉</span>':''}</div>
+        <div class="contact-company">${c.company}${c.title?' · '+c.title:''}</div>
+      </div>
+      <div class="contact-category ${cat.colorClass}">${cat.icon||''} ${cat.label}</div>
+      <div class="contact-status-cell"><div class="status-dot" style="background:${status.color}"></div><span class="status-label">${status.label}</span></div>
+      <span class="tp-count-badge ${tpCount===0?'':tpCount===TOUCHPOINTS.length?'tp-complete':'tp-has-some'}">${tpCount}/${TOUCHPOINTS.length} Touchpoints</span>
+      ${reminderHTML}
+      <button class="expand-btn" onclick="event.stopPropagation();toggleCard('${c.id}')">⌄</button>
+    </div>
+    <div class="contact-detail" id="detail-${c.id}">${contactDetailHTML(c)}</div>
+  </div>`;
+}
+
+function contactDetailHTML(c) {
+  const statusOpts = Object.entries(STATUS_CONFIG).map(([k,v]) =>
+    `<option value="${k}" ${c.status===k?'selected':''}>${v.label}</option>`).join('');
+  const tpHTML = TOUCHPOINTS.map(tp => {
+    const done = c.touchpoints.includes(tp.id);
+    return `<div class="touchpoint-toggle ${done?'done':''}" onclick="toggleTouchpoint('${c.id}','${tp.id}')">
+      <span class="tp-check">${done?'✓':'○'}</span> ${tp.label}</div>`;
+  }).join('');
+
+  // Custom touchpoints
+  const customTPs = (c.customTouchpoints || []);
+  const customTagsHTML = customTPs.map((t,i) => 
+    `<span class="custom-tp-tag">${escHtml(t)}<button onclick="removeCustomTP('${c.id}',${i})">×</button></span>`
+  ).join('');
+
+  // Notes log
+  const notesHTML = (c.notes && c.notes.length > 0)
+    ? c.notes.slice().reverse().map(n => `
+        <div class="note-entry">
+          <div class="note-meta">
+            <span class="note-timestamp">${fmtTs(n.ts)}</span>
+          </div>
+          <div class="note-text">${escHtml(n.text)}</div>
+        </div>`).join('')
+    : `<div class="notes-empty">No notes yet — add your first note below.</div>`;
+
+  const verifiedState = c.verified || 'unverified';
+  const verifyLabel = verifiedState === 'verified' ? '✓ Verified' : verifiedState === 'prefilled' ? '◉ Pre-filled' : '○ Unverified';
+  const verifyClass = verifiedState === 'verified' ? 'verify-verified' : verifiedState === 'prefilled' ? 'verify-prefilled' : 'verify-unverified';
+  const verifyNext = verifiedState === 'unverified' ? 'prefilled' : verifiedState === 'prefilled' ? 'verified' : 'unverified';
+
+  return `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.05);">
+      <span class="verify-badge ${verifyClass}" onclick="updateField('${c.id}','verified','${verifyNext}');document.getElementById('detail-${c.id}').innerHTML=contactDetailHTML(contacts.find(x=>x.id==='${c.id}'))" title="Click to cycle: Unverified → Pre-filled → Verified">${verifyLabel}</span>
+      <button class="prefill-btn" id="prefill-btn-${c.id}" onclick="prefillContact('${c.id}')">🔍 Auto-fill from Web</button>
+      <span style="font-size:10px;color:var(--muted2);margin-left:auto;" id="prefill-status-${c.id}"></span>
+    </div>
+    <div class="detail-grid">
+      <div>
+        <div class="detail-section-label">Contact Info</div>
+        <div class="detail-field"><div class="field-label">Phone</div><input class="field-input" value="${escAttr(c.phone||'')}" onchange="updateField('${c.id}','phone',this.value)" placeholder="(703) 555-0000"></div>
+        <div class="detail-field"><div class="field-label">Email</div><input class="field-input" value="${escAttr(c.email||'')}" onchange="updateField('${c.id}','email',this.value)" placeholder="name@company.com"></div>
+        <div class="detail-field"><div class="field-label">LinkedIn / Website</div><input class="field-input" value="${escAttr(c.linkedin||'')}" onchange="updateField('${c.id}','linkedin',this.value)" placeholder="linkedin.com/in/…"></div>
+        <div class="detail-field"><div class="field-label">📸 Instagram</div><input class="field-input" value="${escAttr(c.instagram||'')}" onchange="updateField('${c.id}','instagram',this.value)" placeholder="instagram.com/handle"></div>
+        <div class="detail-field"><div class="field-label">👍 Facebook</div><input class="field-input" value="${escAttr(c.facebook||'')}" onchange="updateField('${c.id}','facebook',this.value)" placeholder="facebook.com/page"></div>
+        <div class="detail-field"><div class="field-label">Street Address</div><input class="field-input" value="${escAttr(c.address||'')}" onchange="updateField('${c.id}','address',this.value)" placeholder="123 Main St"></div>
+        <div class="form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div class="detail-field"><div class="field-label">City</div><input class="field-input" value="${escAttr(c.city||'')}" onchange="updateField('${c.id}','city',this.value)" placeholder="McLean"></div>
+          <div class="detail-field"><div class="field-label">State</div><input class="field-input" value="${escAttr(c.state||'')}" onchange="updateField('${c.id}','state',this.value)" placeholder="VA" maxlength="2"></div>
+        </div>
+      </div>
+      <div>
+        <div class="detail-section-label">Status & Timing</div>
+        <div class="detail-field"><div class="field-label">Relationship Status</div><select class="field-input" onchange="updateField('${c.id}','status',this.value)">${statusOpts}</select></div>
+        <div class="detail-field"><div class="field-label">Follow-up Reminder</div><input class="field-input" type="date" value="${c.reminder||''}" onchange="updateField('${c.id}','reminder',this.value)"></div>
+        <div class="detail-section-label" style="margin-top:14px;">Touchpoints — click to mark</div>
+        <div class="touchpoints-row">${tpHTML}</div>
+        <div class="detail-section-label" style="margin-top:14px;">Other Touchpoints</div>
+        <div class="tp-other-row">
+          <input class="tp-other-input" id="tp-other-input-${c.id}" placeholder="Type custom touchpoint…" onkeydown="if(event.key==='Enter')addCustomTP('${c.id}')">
+          <button class="btn-add-tp" onclick="addCustomTP('${c.id}')">+ Add</button>
+        </div>
+        ${customTagsHTML ? `<div class="custom-tp-list">${customTagsHTML}</div>` : ''}
+      </div>
+      <div>
+        <div class="notes-log">
+          <div class="notes-log-title">Notes Log</div>
+          <div id="notes-list-${c.id}">${notesHTML}</div>
+          <div class="new-note-row">
+            <textarea id="new-note-${c.id}" placeholder="Add a note…"></textarea>
+            <button class="btn-add-note" onclick="addNote('${c.id}')">Add Note</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="detail-actions">
+      <button class="btn-save" onclick="saveAndRefresh('${c.id}')">Save Changes</button>
+      <button class="btn-delete" onclick="deleteContact('${c.id}')">Delete Contact</button>
+    </div>`;
+}
+
+function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>'); }
+function escAttr(s) { return String(s).replace(/"/g,'&quot;'); }
+
+function addNote(contactId) {
+  const ta = document.getElementById('new-note-' + contactId);
+  const text = ta.value.trim();
+  if (!text) return;
+  const c = contacts.find(x => x.id === contactId);
+  if (!c) return;
+  if (!Array.isArray(c.notes)) c.notes = [];
+  c.notes.push({ id: 'n' + Date.now(), text, ts: Date.now() });
+  save();
+  ta.value = '';
+  // Re-render just the notes list
+  const notesHTML = c.notes.slice().reverse().map(n => `
+    <div class="note-entry">
+      <div class="note-meta"><span class="note-timestamp">${fmtTs(n.ts)}</span></div>
+      <div class="note-text">${escHtml(n.text)}</div>
+    </div>`).join('');
+  document.getElementById('notes-list-' + contactId).innerHTML = notesHTML;
+}
+
+function addCustomTP(contactId) {
+  const inp = document.getElementById('tp-other-input-' + contactId);
+  if (!inp) return;
+  const text = inp.value.trim();
+  if (!text) return;
+  const c = contacts.find(x => x.id === contactId);
+  if (!c) return;
+  if (!Array.isArray(c.customTouchpoints)) c.customTouchpoints = [];
+  c.customTouchpoints.push(text);
+  save();
+  inp.value = '';
+  document.getElementById('detail-' + contactId).innerHTML = contactDetailHTML(c);
+}
+
+function removeCustomTP(contactId, index) {
+  const c = contacts.find(x => x.id === contactId);
+  if (!c || !Array.isArray(c.customTouchpoints)) return;
+  c.customTouchpoints.splice(index, 1);
+  save();
+  document.getElementById('detail-' + contactId).innerHTML = contactDetailHTML(c);
+}
+
+// ═══════════════════════════════════════
+// CALENDAR
+// ═══════════════════════════════════════
+function renderCalendar() {
+  const content = document.getElementById('mainContent');
+  const today = new Date();
+  const year = currentCalYear;
+  const month = currentCalMonth;
+  const monthName = new Date(year, month, 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+  // Build upcoming events (next 14 days)
+  const now = new Date(); now.setHours(0,0,0,0);
+  const in14 = new Date(now); in14.setDate(in14.getDate() + 14);
+  const upcoming = calEvents
+    .filter(ev => { const d = new Date(ev.date); return d >= now && d <= in14; })
+    .sort((a,b) => new Date(a.date) - new Date(b.date))
+    .slice(0, 6);
+
+  const upcomingHTML = upcoming.length > 0
+    ? upcoming.map(ev => {
+        const ec = contacts.find(c => c.id === ev.contactId);
+        const et = EVENT_TYPES[ev.type] || EVENT_TYPES.outreach;
+        return `<div class="upcoming-item" onclick="viewEvent('${ev.id}')">
+          <div class="upcoming-dot" style="background:${et.color}"></div>
+          <div class="upcoming-info">
+            <div class="upcoming-name">${escHtml(ev.title)}</div>
+            <div class="upcoming-sub">${et.label}${ec ? ' · ' + ec.fname + ' ' + ec.lname : ''}</div>
+          </div>
+          <div class="upcoming-date">${new Date(ev.date + 'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})}${ev.time?' · '+fmtTime(ev.time):''}</div>
+        </div>`;
+      }).join('')
+    : `<div class="no-upcoming">No events in the next 14 days — add one above!</div>`;
+
+  // Build calendar grid
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const daysInPrev = new Date(year, month, 0).getDate();
+
+  let cells = '';
+  let cellCount = 0;
+  // prev month cells
+  for (let i = firstDay - 1; i >= 0; i--) {
+    const d = daysInPrev - i;
+    cells += calCell(year, month - 1, d, true);
+    cellCount++;
+  }
+  // current month
+  for (let d = 1; d <= daysInMonth; d++) {
+    const isToday = d === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+    cells += calCell(year, month, d, false, isToday);
+    cellCount++;
+  }
+  // next month
+  const remaining = 42 - cellCount;
+  for (let d = 1; d <= remaining; d++) {
+    cells += calCell(year, month + 1, d, true);
+  }
+
+  content.innerHTML = `
+    <div class="cal-container">
+      <div class="upcoming-panel">
+        <div class="upcoming-title">Upcoming — Next 14 Days</div>
+        <div class="upcoming-list">${upcomingHTML}</div>
+      </div>
+      <div class="cal-header">
+        <button class="cal-nav-btn" onclick="calNav(-1)">‹</button>
+        <div class="cal-month-title">${monthName}</div>
+        <button class="cal-nav-btn" onclick="calNav(1)">›</button>
+        <button class="cal-today-btn" onclick="calToday()">Today</button>
+        <button class="add-event-btn" onclick="openEventModal()">+ Add Event</button>
+      </div>
+      <div class="cal-grid-header">
+        ${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d=>`<div class="cal-day-label">${d}</div>`).join('')}
+      </div>
+      <div class="cal-grid">${cells}</div>
+    </div>`;
+}
+
+function calCell(year, month, day, otherMonth, isToday) {
+  const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+  const dayEvents = calEvents.filter(ev => ev.date === dateStr);
+  const maxShow = 3;
+  const evHTML = dayEvents.slice(0, maxShow).map(ev => {
+    const et = EVENT_TYPES[ev.type] || EVENT_TYPES.outreach;
+    return `<div class="cal-event ${et.cls}" onclick="event.stopPropagation();viewEvent('${ev.id}')" title="${escAttr(ev.title)}">${escHtml(ev.title)}</div>`;
+  }).join('');
+  const moreHTML = dayEvents.length > maxShow ? `<div class="cal-more">+${dayEvents.length - maxShow} more</div>` : '';
+  const classes = ['cal-cell', otherMonth ? 'other-month' : '', isToday ? 'today' : ''].filter(Boolean).join(' ');
+  return `<div class="${classes}" onclick="openEventModalOnDate('${dateStr}')">
+    <div class="cal-cell-num">${day}</div>
+    ${evHTML}${moreHTML}
+  </div>`;
+}
+
+function fmtTime(t) {
+  if (!t) return '';
+  const [h, m] = t.split(':').map(Number);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  return `${h % 12 || 12}:${String(m).padStart(2,'0')} ${ampm}`;
+}
+
+function calNav(dir) {
+  currentCalMonth += dir;
+  if (currentCalMonth > 11) { currentCalMonth = 0; currentCalYear++; }
+  if (currentCalMonth < 0) { currentCalMonth = 11; currentCalYear--; }
+  renderCalendar();
+}
+
+function calToday() {
+  currentCalYear = new Date().getFullYear();
+  currentCalMonth = new Date().getMonth();
+  renderCalendar();
+}
+
+// ═══════════════════════════════════════
+// EVENTS CRUD
+// ═══════════════════════════════════════
+function openEventModal(date) {
+  document.getElementById('eventModalTitle').textContent = 'Add Calendar Event';
+  document.getElementById('ev-editing-id').value = '';
+  ['ev-title','ev-notes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('ev-date').value = date || '';
+  document.getElementById('ev-time').value = '';
+  document.getElementById('ev-type').value = 'outreach';
+  // populate contact select
+  const sel = document.getElementById('ev-contact');
+  sel.innerHTML = `<option value="">— None —</option>` + contacts.map(c =>
+    `<option value="${c.id}">${c.fname} ${c.lname} — ${c.company}</option>`).join('');
+  document.getElementById('eventModal').classList.add('open');
+}
+
+function openEventModalOnDate(dateStr) {
+  openEventModal(dateStr);
+}
+
+function saveEvent() {
+  const title = document.getElementById('ev-title').value.trim();
+  const date = document.getElementById('ev-date').value;
+  if (!title || !date) { alert('Please enter a title and date.'); return; }
+  const editId = document.getElementById('ev-editing-id').value;
+  const ev = {
+    id: editId || 'ev' + Date.now(),
+    title,
+    date,
+    time: document.getElementById('ev-time').value,
+    type: document.getElementById('ev-type').value,
+    contactId: document.getElementById('ev-contact').value,
+    notes: document.getElementById('ev-notes').value.trim(),
+  };
+  if (editId) {
+    const idx = calEvents.findIndex(e => e.id === editId);
+    if (idx >= 0) calEvents[idx] = ev; else calEvents.push(ev);
+  } else {
+    calEvents.push(ev);
+  }
+  save();
+  closeModal('eventModal');
+  renderAll();
+}
+
+function viewEvent(id) {
+  const ev = calEvents.find(e => e.id === id);
+  if (!ev) return;
+  viewingEventId = id;
+  const ec = contacts.find(c => c.id === ev.contactId);
+  const et = EVENT_TYPES[ev.type] || EVENT_TYPES.outreach;
+  document.getElementById('eventDetailContent').innerHTML = `
+    <span class="event-type-badge ${et.cls}">${et.label}</span>
+    <div class="modal-title">${escHtml(ev.title)}</div>
+    <div style="margin:10px 0 16px;font-size:13px;color:var(--muted)">
+      ${new Date(ev.date+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'})}
+      ${ev.time ? ' · ' + fmtTime(ev.time) : ''}
+    </div>
+    ${ec ? `<div style="font-size:12px;color:var(--gold);margin-bottom:10px;">👤 ${ec.fname} ${ec.lname} — ${ec.company}</div>` : ''}
+    ${ev.notes ? `<div style="font-size:12px;color:var(--text);line-height:1.7;background:var(--dark4);padding:12px;border-radius:8px;">${escHtml(ev.notes)}</div>` : ''}
+  `;
+  document.getElementById('eventDetailModal').classList.add('open');
+}
+
+function editEventFromDetail() {
+  const ev = calEvents.find(e => e.id === viewingEventId);
+  if (!ev) return;
+  closeModal('eventDetailModal');
+  openEventModal(ev.date);
+  setTimeout(() => {
+    document.getElementById('ev-editing-id').value = ev.id;
+    document.getElementById('eventModalTitle').textContent = 'Edit Event';
+    document.getElementById('ev-title').value = ev.title;
+    document.getElementById('ev-time').value = ev.time || '';
+    document.getElementById('ev-type').value = ev.type;
+    document.getElementById('ev-notes').value = ev.notes || '';
+    document.getElementById('ev-contact').value = ev.contactId || '';
+  }, 50);
+}
+
+function deleteEventFromDetail() {
+  if (!confirm('Delete this event?')) return;
+  calEvents = calEvents.filter(e => e.id !== viewingEventId);
+  save();
+  closeModal('eventDetailModal');
+  renderAll();
+}
+
+// ═══════════════════════════════════════
+// INTERACTIONS
+// ═══════════════════════════════════════
+function toggleCard(id) {
+  document.getElementById('card-' + id).classList.toggle('open');
+}
+
+function updateField(id, field, value) {
+  const c = contacts.find(x => x.id === id);
+  if (c) { c[field] = value; save(); renderStats(); renderSidebar(); }
+}
+
+function toggleTouchpoint(id, tp) {
+  const c = contacts.find(x => x.id === id);
+  if (!c) return;
+  const idx = c.touchpoints.indexOf(tp);
+  if (idx >= 0) c.touchpoints.splice(idx, 1); else c.touchpoints.push(tp);
+  save(); renderStats(); renderSidebar();
+  document.getElementById('detail-' + id).innerHTML = contactDetailHTML(c);
+  const magBadge = document.querySelector(`#card-${id} .magazine-badge`);
+  if (magBadge) {
+    const done = c.touchpoints.includes('magazine');
+    magBadge.className = `magazine-badge ${done?'mag-yes':'mag-no'}`;
+    magBadge.textContent = done ? '📖 Delivered' : 'Mag Pending';
+  }
+}
+
+function saveAndRefresh(id) {
+  save(); renderSidebar(); renderStats();
+  const btn = document.querySelector(`#card-${id} .btn-save`);
+  if (btn) { btn.textContent = 'Saved ✓'; btn.style.background = '#4CAF50'; setTimeout(() => { btn.textContent = 'Save Changes'; btn.style.background = ''; }, 1500); }
+}
+
+function deleteContact(id) {
+  if (!confirm('Remove this contact?')) return;
+  contacts = contacts.filter(c => c.id !== id);
+  save(); renderAll();
+}
+
+// ═══════════════════════════════════════
+// VIEWS
+// ═══════════════════════════════════════
+function setView(v) {
+  currentView = v; currentCategory = null;
+  const titles = { all: 'All Contacts', calendar: '📅 Calendar', reminders: '⏰ Reminders', contacted: '✅ Contacts Reached', tocontact: '📬 Still To Contact', location: '📍 Browse by Location' };
+  document.getElementById('viewTitle').innerHTML = titles[v] || v;
+  // Show/hide search + add contact btn
+  const searchBox = document.getElementById('searchInput');
+  const addBtn = document.querySelector('.add-contact-btn');
+  searchBox.style.display = v === 'calendar' ? 'none' : '';
+  addBtn.style.display = v === 'calendar' ? 'none' : '';
+  renderAll();
+}
+
+function setViewCat(catId) {
+  currentView = 'cat'; currentCategory = catId;
+  const cat = categories.find(c => c.id === catId);
+  document.getElementById('viewTitle').innerHTML = cat ? `${cat.icon} ${cat.label}` : catId;
+  document.getElementById('searchInput').style.display = '';
+  document.querySelector('.add-contact-btn').style.display = '';
+  renderAll();
+}
+
+function renderLocation(allContacts) {
+  const content = document.getElementById('mainContent');
+  const stateFilter = (document.getElementById('loc-state-filter') ? document.getElementById('loc-state-filter').value : '').toLowerCase();
+  const cityFilter = (document.getElementById('loc-city-filter') ? document.getElementById('loc-city-filter').value : '').toLowerCase();
+
+  let filtered = allContacts.filter(c => {
+    const state = (c.state || '').toLowerCase();
+    const city = (c.city || '').toLowerCase();
+    const addr = (c.address || '').toLowerCase();
+    return (!stateFilter || state.includes(stateFilter)) && (!cityFilter || city.includes(cityFilter) || addr.includes(cityFilter));
+  });
+
+  const withAddr = filtered.filter(c => c.address || c.city || c.state);
+  const withoutAddr = filtered.filter(c => !c.address && !c.city && !c.state);
+
+  content.innerHTML = `
+    <div class="location-filters">
+      <input class="location-filter-input" id="loc-state-filter" placeholder="Filter by state (e.g. VA)" value="${stateFilter.toUpperCase()}" oninput="renderLocation(contacts)" maxlength="2">
+      <input class="location-filter-input" id="loc-city-filter" placeholder="Filter by city (e.g. McLean)" value="${cityFilter ? cityFilter.charAt(0).toUpperCase()+cityFilter.slice(1) : ''}" oninput="renderLocation(contacts)">
+      <span style="font-size:11px;color:var(--muted);align-self:center;">${withAddr.length} with address · ${withoutAddr.length} without</span>
+    </div>
+    ${withAddr.length > 0 ? `
+    <div class="table-header" style="margin-bottom:12px;"><div class="table-title">📍 Contacts with Address</div></div>
+    ${withAddr.map(c => {
+      const cat = categories.find(x => x.id === c.category) || { icon: '📋', colorClass: 'cat-custom', label: c.category };
+      const addrStr = [c.address, c.city, c.state].filter(Boolean).join(', ');
+      const mapsUrl = `https://maps.google.com/?q=${encodeURIComponent(addrStr)}`;
+      return `<div class="loc-card" onclick="setView('all');setTimeout(()=>{const el=document.getElementById('card-${c.id}');if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('open');}},200)">
+        <div class="loc-icon">${cat.icon}</div>
+        <div class="loc-info">
+          <div class="loc-name">${escHtml(c.fname)} ${escHtml(c.lname)}</div>
+          <div class="loc-company">${escHtml(c.company)}${c.title?' · '+escHtml(c.title):''}</div>
+          <div class="loc-address">📍 ${escHtml(addrStr)}</div>
+        </div>
+        <a href="${mapsUrl}" target="_blank" onclick="event.stopPropagation()" style="font-size:10px;color:var(--accent);text-decoration:none;padding:5px 10px;border:1px solid rgba(74,158,191,0.3);border-radius:6px;white-space:nowrap;">Open Maps ↗</a>
+      </div>`;
+    }).join('')}` : ''}
+    ${withoutAddr.length > 0 ? `
+    <div class="table-header" style="margin:20px 0 12px;"><div class="table-title" style="color:var(--muted);font-size:16px;">No Address on File (${withoutAddr.length})</div></div>
+    ${withoutAddr.map(c => {
+      const cat = categories.find(x => x.id === c.category) || { icon: '📋', colorClass: 'cat-custom', label: c.category };
+      return `<div class="loc-card" onclick="setView('all');setTimeout(()=>{const el=document.getElementById('card-${c.id}');if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('open');}},200)">
+        <div class="loc-icon">${cat.icon}</div>
+        <div class="loc-info">
+          <div class="loc-name">${escHtml(c.fname)} ${escHtml(c.lname)}</div>
+          <div class="loc-company">${escHtml(c.company)}</div>
+          <div class="loc-no-address">No address — click to open and add one</div>
+        </div>
+      </div>`;
+    }).join('')}` : ''}
+  `;
+}
+
+async function prefillContact(id) {
+  const c = contacts.find(x => x.id === id);
+  if (!c) return;
+  const btn = document.getElementById('prefill-btn-' + id);
+  const status = document.getElementById('prefill-status-' + id);
+  if (!btn) return;
+  btn.disabled = true;
+  btn.textContent = '⏳ Searching…';
+  if (status) status.textContent = '';
+  const query = [c.fname, c.lname, c.company, 'NoVA', 'Virginia'].filter(Boolean).join(' ');
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 600,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        system: `You are a research assistant helping fill in contact info for a luxury pool company CRM. Search for the contact and return ONLY a JSON object (no markdown, no explanation) with these fields: phone, email, linkedin, instagram, facebook, address, city, state. Use empty string "" for any field you cannot find. Example: {"phone":"(703) 555-0000","email":"info@company.com","linkedin":"linkedin.com/in/...","instagram":"instagram.com/handle","facebook":"facebook.com/page","address":"123 Main St","city":"McLean","state":"VA"}`,
+        messages: [{ role: 'user', content: `Find contact info for: ${query}` }]
+      })
+    });
+    const data = await resp.json();
+    const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      const info = JSON.parse(jsonMatch[0]);
+      const fields = ['phone','email','linkedin','instagram','facebook','address','city','state'];
+      let filled = 0;
+      fields.forEach(f => { if (info[f] && !c[f]) { c[f] = info[f]; filled++; } });
+      if (filled > 0) {
+        c.verified = 'prefilled';
+        save();
+        document.getElementById('detail-' + id).innerHTML = contactDetailHTML(c);
+        const cardEl = document.getElementById('card-' + id);
+        const nameEl = cardEl ? cardEl.querySelector('.contact-name') : null;
+        if (nameEl) nameEl.innerHTML = `${escHtml(c.fname)} ${escHtml(c.lname)} <span style="font-size:10px;color:var(--orange)">◉</span>`;
+      } else {
+        if (status) status.textContent = 'No new info found';
+        btn.disabled = false;
+        btn.textContent = '🔍 Auto-fill from Web';
+      }
+    } else {
+      if (status) status.textContent = 'Could not parse results';
+      btn.disabled = false;
+      btn.textContent = '🔍 Auto-fill from Web';
+    }
+  } catch(e) {
+    if (status) status.textContent = 'Search unavailable';
+    btn.disabled = false;
+    btn.textContent = '🔍 Auto-fill from Web';
+  }
+}
+
+function renderAll() {
+  renderSidebar(); renderStats(); renderContacts();
+}
+
+// ═══════════════════════════════════════
+// MODALS
+// ═══════════════════════════════════════
+function openAddModal() {
+  const sel = document.getElementById('f-category');
+  sel.innerHTML = categories.map(c => `<option value="${c.id}">${c.icon} ${c.label}</option>`).join('');
+  document.getElementById('addModal').classList.add('open');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+function saveContact() {
+  const fname = document.getElementById('f-fname').value.trim();
+  if (!fname) { alert('Please enter a first name.'); return; }
+  const noteText = document.getElementById('f-notes').value.trim();
+  const c = {
+    id: 'c' + Date.now(),
+    fname, lname: document.getElementById('f-lname').value.trim(),
+    company: document.getElementById('f-company').value.trim(),
+    title: document.getElementById('f-title').value.trim(),
+    category: document.getElementById('f-category').value,
+    status: document.getElementById('f-status').value,
+    phone: document.getElementById('f-phone').value.trim(),
+    email: document.getElementById('f-email').value.trim(),
+    linkedin: document.getElementById('f-linkedin').value.trim(),
+    instagram: document.getElementById('f-instagram').value.trim(),
+    facebook: document.getElementById('f-facebook').value.trim(),
+    address: document.getElementById('f-address').value.trim(),
+    city: document.getElementById('f-city').value.trim(),
+    state: document.getElementById('f-state').value.trim(),
+    reminder: document.getElementById('f-reminder').value,
+    notes: noteText ? [{ id: 'n'+Date.now(), text: noteText, ts: Date.now() }] : [],
+    touchpoints: [],
+    customTouchpoints: [],
+    verified: 'unverified',
+  };
+  contacts.push(c); save();
+  closeModal('addModal');
+  ['f-fname','f-lname','f-company','f-title','f-phone','f-email','f-linkedin','f-instagram','f-facebook','f-address','f-city','f-state','f-reminder','f-notes'].forEach(id => { document.getElementById(id).value = ''; });
+  renderAll();
+}
+
+function openCatModal() { document.getElementById('catModal').classList.add('open'); }
+
+function saveCategory() {
+  const name = document.getElementById('f-catname').value.trim();
+  if (!name) { alert('Enter a category name.'); return; }
+  const icon = document.getElementById('f-caticon').value.trim() || '📋';
+  const id = name.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
+  categories.push({ id, label: name, icon, colorClass: 'cat-custom' });
+  save(); closeModal('catModal');
+  document.getElementById('f-catname').value = ''; document.getElementById('f-caticon').value = '';
+  renderAll();
+}
+
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+});
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+renderAll();
+</script>
+</body>
+</html>
